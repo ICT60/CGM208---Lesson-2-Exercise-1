@@ -7,41 +7,56 @@ namespace CGM208___Lesson_2_Exercise_1
         static void Main(string[] args)
         {
             bool isQuit = false;
+            short number = 0;
+            decimal result = 0;
 
             do
             {
-                Console.Write("Please enter a number : ");
-                string inputNum = Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("------------------------------");
 
-                double number = 0;
-                bool isCanParse = double.TryParse(inputNum, out number);
+                Console.WriteLine("Factorial of n");
+                Console.Write("Please enter a number : ");
+
+                string inputNum = Console.ReadLine();
+                bool isCanParse = short.TryParse(inputNum, out number);
 
                 if (isCanParse) {
 
-                    double result = Factorial(number);
-                    Console.WriteLine("Result : {0}", result);
+                    try
+                    {
+                        result = Factorial(number);
+                        Console.WriteLine("Result : {0}", result);
 
-                    Console.WriteLine("Do you want to quit? (y/n)");
-                    string promptResult = Console.ReadLine();
+                        Console.WriteLine("------------------------------");
+                        Console.WriteLine("Do you want to quit? (y/n)");
 
-                    if (promptResult.Equals("y")) {
-                        isQuit = true;
+                        string promptResult = Console.ReadLine();
+                        isQuit = (promptResult.Equals("y") || promptResult.Equals("Y"));
                     }
-                    else {
+                    catch (OverflowException exception)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("------------------------------");
+                        Console.WriteLine("--- Error ---");
+                        Console.WriteLine("Factorial of {0}", number);
+                        Console.WriteLine("------------------------------");
+                        Console.WriteLine("The result is too high to be store.");
+                        Console.WriteLine("--- Press enter to continue ---");
+                        Console.WriteLine("------------------------------");
+                        Console.Read();
                         continue;
                     }
-                }
-                else {
-                    Console.WriteLine("Please enter only number...");
                 }
 
             } while (!isQuit);
 
-            Console.WriteLine("Press any key....");
+            Console.Clear();
+            Console.WriteLine("--- Press enter to exit ---");
             Console.ReadLine();
         }
 
-        static double Factorial(double number)
+        static decimal Factorial(decimal number)
         {
             if (number == 0) {
                 return 1;
